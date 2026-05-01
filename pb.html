@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parrot Box - Now with Bird-like Voice!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .parrot-container {
+            position: relative;
+            height: 300px;
+            background: linear-gradient(to bottom, #a1c4fd 0%, #c2e9fb 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .parrot {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            transform: scaleX(-1);
+            transition: transform 0.3s;
+        }
+
+        .parrot-body1 {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: #4CAF50;
+            border-radius: 50%;
+            top: 35px;
+            left: 35px;
+            z-index: 2;
+            box-shadow: inset -10px -10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .parrot-body2 {
+            position: absolute;
+            width: 80px;
+            height: 50px;
+            background: #7ccf7f;
+            border-radius: 40%;
+            top: 130px;
+            left: 90px;
+            z-index: 2;
+            box-shadow: inset -10px -10px 20px rgba(0, 0, 0, 0.1);
+            transform: rotate(-30deg);
+            border-radius: 50% 50% 10% 50%;
+        }
+
+        .parrot-head {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: #4CAF50;
+            border-radius: 50%;
+            top: 0;
+            left: 135px;
+            z-index: 3;
+        }
+
+        .parrot-eye {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #333;
+            border-radius: 50%;
+            top: 40px;
+            left: 170px;
+            z-index: 4;
+        }
+        
+        .parrot-eyelight {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ffffff;
+            border-radius: 50%;
+            top: 40px;
+            left: 170px;
+            z-index: 4;
+        }
+
+        .parrot-beak {
+            position: absolute;
+            width: 42px;
+            height: 28px;
+            background: #FF9800;
+            border-radius: 50% 50% 10% 50%;
+            top: 60px;
+            left: 195px;
+            z-index: 4;
+            transform: rotate(-20deg);
+            transition: all 0.2s ease;
+        }
+        
+        .parrot-beak.talking {
+            animation: beakMove 0.2s infinite alternate;
+        }
+
+        .parrot-wing {
+            position: absolute;
+            width: 90px;
+            height: 60px;
+            background: #4CAF50;
+            border-radius: 50% 50% 50% 50%;
+            top: 90px;
+            left: 60px;
+            z-index: 1;
+            transform: rotate(-20deg);
+            animation: flap 0.8s infinite alternate;
+        }
+        
+        .parrot-wingopen1 {
+            position: absolute;
+            width: 85px;
+            height: 60px;
+            background: #4CAF50;
+            border-radius: 0% 050% 50% 50%;
+            top: 51;
+            left: -3px;
+            z-index: 1;
+            transform: rotate(-20deg);
+            animation: flap 0.8s infinite alternate;
+        }
+        
+        .parrot-wingopen2 {
+            position: absolute;
+            width: 80px;
+            height: 60px;
+            background: #388E3C;
+            border-radius: 0% 50% 50% 50%;
+            top: 20px;
+            left: -2;
+            z-index: 1;
+            transform: rotate(-20deg);
+            animation: flap 0.8s infinite alternate;
+        }
+
+        .parrot-feet {
+            position: absolute;
+            width: 15px;
+            height: 40px;
+            background: #FF9800;
+            border-radius: 10px;
+            top: 160px;
+            left: 105px;
+            z-index: 1;
+            transform: rotate(5deg);
+        }
+
+        .parrot-feet::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 40px;
+            background: #FF9800;
+            border-radius: 10px;
+            left: 40px;
+        }
+
+        .parrot-talk {
+            position: absolute;
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            width: 160px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            left: 400px;
+            top: 3;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+            font-size: 14px;
+        }
+
+        .parrot-talk.show {
+            opacity: 1;
+        }
+
+        .parrot-talk::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right: 20px solid white;
+            left: -15px;
+            top: 30px;
+        }
+
+        .controls {
+            padding: 25px;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .work-input {
+            width: 100%;
+            padding: 15px 50px 15px 15px;
+            border: 2px dashed #4facfe;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .work-input:focus {
+            border: 2px solid #4facfe;
+            background: #e3f2fd;
+            box-shadow: 0 0 10px rgba(79, 172, 254, 0.5);
+        }
+
+        .work-input::placeholder {
+            color: #90a4ae;
+        }
+
+        .enter-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .enter-btn:hover {
+            background: #3a9dfc;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .btn {
+            background: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
+            outline: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 117, 140, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-roast {
+            background: linear-gradient(to right, #ff9a9e 0%, #fad0c4 100%);
+            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4);
+        }
+
+        .btn-gossip {
+            background: linear-gradient(to right, #a18cd1 0%, #fbc2eb 100%);
+            box-shadow: 0 5px 15px rgba(137, 115, 189, 0.4);
+        }
+        
+        .btn-tarrot {
+            background: linear-gradient(to right, #e4a538 0%, #fad0c4 100%);
+            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4);
+        }
+
+        .btn-stop {
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-nonstop {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+        }
+        
+        .btn-voice {
+            background: linear-gradient(to right, #8e44ad, #9b59b6);
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #e3f2fd;
+            color: #546e7a;
+            font-size: 0.9rem;
+        }
+
+        .squawk-history {
+            background: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .squawk-history h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #4facfe;
+        }
+
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px dashed #e0e0e0;
+            font-style: italic;
+            color: #666;
+            transition: background-color 0.3s;
+        }
+
+        .history-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-item::before {
+            content: "🦜";
+            margin-right: 10px;
+        }
+
+        .work-reminder {
+            background: #fffde7;
+            border-left: 4px solid #ffd54f;
+            padding: 10px 15px;
+            margin: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .work-reminder i {
+            color: #ffb300;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .nonstop-indicator {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 10px 15px;
+            margin: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nonstop-indicator i {
+            color: #f44336;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .tarrot-card {
+            background: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 10px 20px;
+            border-radius: 8px;
+            display: none;
+            position: relative;
+        }
+        
+        .tarrot-card.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .tarrot-card h4 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tarrot-card h4 i {
+            margin-right: 10px;
+        }
+        
+        .tarrot-card p {
+            color: #424242;
+            font-style: italic;
+            line-height: 1.4;
+        }
+        
+        .tarrot-card .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        
+        .voice-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            background: #f0f4f8;
+            border-radius: 10px;
+            margin: 0 20px 20px;
+        }
+        
+        .voice-slider {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        .voice-slider label {
+            margin-right: 10px;
+            font-size: 0.9rem;
+            color: #546e7a;
+            white-space: nowrap;
+        }
+        
+        .voice-slider input {
+            width: 100%;
+        }
+        
+        .voice-btn {
+            background: #8e44ad;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .voice-btn:hover {
+            background: #9b59b6;
+        }
+        
+        .voice-btn.active {
+            background: #27ae60;
+            box-shadow: 0 0 8px rgba(39, 174, 96, 0.5);
+        }
+
+        @keyframes flap {
+            0% { transform: rotate(-20deg); }
+            100% { transform: rotate(10deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .bounce {
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes beakMove {
+            0% { transform: rotate(-20deg) scale(1); }
+            50% { transform: rotate(-20deg) scale(1.1); }
+            100% { transform: rotate(-20deg) scale(1); }
+        }
+        
+        @keyframes headBob {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .head-bob {
+            animation: headBob 0.3s infinite;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+                display: block;
+                width: 90%;
+                margin: 10px auto;
+            }
+            
+            .parrot-container {
+                height: 250px;
+            }
+            
+            .parrot {
+                transform: scale(0.8) scaleX(-1);
+            }
+            
+            .parrot-talk {
+                left: 200px;
+                top: 60px;
+                width: 180px;
+                font-size: 0.9rem;
+            }
+            
+            .work-reminder, .nonstop-indicator, .tarrot-card {
+                margin: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .voice-controls {
+                flex-direction: column;
+            }
+            
+            .voice-slider {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-parrot"></i> PARROT BOX</h1>
+            <p>Your personal procrastination police & gossip machine!</p>
+        </div>
+        
+        <div class="voice-controls">
+            <div class="voice-slider">
+                <label for="birdiness">Birdiness:</label>
+                <input type="range" id="birdiness" min="0" max="100" value="80">
+            </div>
+            <button class="voice-btn" id="voiceToggle">
+                <i class="fas fa-volume-up"></i>
+                <span>Bird Voice: ON</span>
+            </button>
+        </div>
+        
+        <div class="parrot-container">
+            <div class="parrot">
+                <div class="parrot-body1"></div>
+                <div class="parrot-body2"></div>
+                <div class="parrot-head"></div>
+                <div class="parrot-eye"></div>
+                <div class="parrot-eyelight"></div>
+                <div class="parrot-beak"></div>
+                <div class="parrot-wing"></div>
+                <div class="parrot-wingopen1"></div>
+                <div class="parrot-wingopen2"></div>
+                <div class="parrot-feet"></div>
+            </div>
+            <div class="parrot-talk" id="parrotSpeech">Squawk! What work are you avoiding?</div>
+        </div>
+        
+        <div class="work-reminder" id="workReminder">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>You're avoiding: <span id="currentWork">nothing yet!</span></span>
+        </div>
+        
+        <div class="nonstop-indicator" id="nonstopIndicator" style="display: none;">
+            <div>
+                <i class="fas fa-radiation"></i>
+                <span>RAPID-FIRE MODE: Squawking non-stop!</span>
+            </div>
+            <button class="btn btn-stop" id="stopNonstopBtn">Stop</button>
+        </div>
+        
+        <!-- Tarot Card Section -->
+        <div class="tarrot-card" id="tarrotCard">
+            <button class="close" id="closeTarrot">&times;</button>
+            <h4><i class="fas fa-cards"></i> <span id="tarrotTitle">The Fool</span></h4>
+            <p id="tarrotMessage">Your journey begins with a leap of faith!</p>
+        </div>
+        
+        <div class="controls">
+            <div class="input-container">
+                <input type="text" class="work-input" id="workInput" placeholder="What work are you avoiding? (Press Enter)">
+                <button class="enter-btn" id="enterBtn">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-roast" id="roastBtn"><i class="fas fa-fire"></i> Roast Me!</button>
+                <button class="btn btn-gossip" id="gossipBtn"><i class="fas fa-comment-dots"></i> Gossip!</button>
+                <button class="btn btn-tarrot" id="tarrotBtn"><i class="fas fa-cards"></i> Pick a card</button>
+                <button class="btn btn-nonstop" id="nonstopBtn"><i class="fas fa-infinity"></i> Rapid-Fire Mode!</button>
+            </div>
+        </div>
+        
+        <div class="squawk-history">
+            <h3><i class="fas fa-history"></i> Squawk History</h3>
+            <div id="historyList"></div>
+        </div>
+        
+        <div class="footer">
+            <p>Made with ❤️ and way too much procrastination | useless project of 2025</p>
+            <p>When life is so cooked you listen to a bird yell at you:)</p>
+        </div>
+    </div>
+
+    <script>
+        // DOM elements
+        const workInput = document.getElementById('workInput');
+        const enterBtn = document.getElementById('enterBtn');
+        const roastBtn = document.getElementById('roastBtn');
+        const gossipBtn = document.getElementById('gossipBtn');
+        const tarrotBtn = document.getElementById('tarrotBtn');
+        const nonstopBtn = document.getElementById('nonstopBtn');
+        const stopNonstopBtn = document.getElementById('stopNonstopBtn');
+        const parrotSpeech = document.getElementById('parrotSpeech');
+        const historyList = document.getElementById('historyList');
+        const currentWorkSpan = document.getElementById('currentWork');
+        const workReminder = document.getElementById('workReminder');
+        const nonstopIndicator = document.getElementById('nonstopIndicator');
+        const parrot = document.querySelector('.parrot');
+        const parrotHead = document.querySelector('.parrot-head');
+        const parrotBeak = document.querySelector('.parrot-beak');
+        const tarrotCard = document.getElementById('tarrotCard');
+        const tarrotTitle = document.getElementById('tarrotTitle');
+        const tarrotMessage = document.getElementById('tarrotMessage');
+        const closeTarrot = document.getElementById('closeTarrot');
+        const voiceToggle = document.getElementById('voiceToggle');
+        const birdinessSlider = document.getElementById('birdiness');
+        
+        // Current work being avoided
+        let currentWork = '';
+        let lastSquawkTime = 0;
+        let reminderInterval;
+        
+        // Variables for non-stop mode
+        let nonstopInterval;
+        let nonstopMode = false;
+        let squawkQueue = [];
+        let isSpeaking = false;
+        
+        // Voice settings
+        let useBirdVoice = true;
+        let birdiness = 80; // 0-100 scale for how bird-like the voice is
+        
+        // Roast messages
+        const roasts = [
+            "SQUAWK! Avoiding work?",
+            "The assignment aint gonna write itself babygirl",
+            "SQUAWK! Procrastinator!",
+            "SQUAWK! Get to work!",
+            "SQUAWK! Stop slacking!",
+            "lazy award goes to you",
+            "SQUAWK! Work! Work! Work! are you deaf?",
+            "SQUAWK! Focus!",
+            "SQUAWK! No more excuses! no you can eat later",
+            "SQUAWK! Productivity now!",
+            "Stop scrolling",
+            "wasted",
+            "SQUAWK! SQUAWK! SQUAWK! ",
+            "SQUAWK! Do it now!"
+        ];
+        
+        // Gossip messages
+        const gossip = [
+            "SQUAWK! Did you hear? what the government did- nothing they did nothing",
+            "SQUAWK! Rumor has it, you won't start before the deadline",
+            "SQUAWK! Office gossip josh has a girlfriend (josh is the table plant plant)",
+            "You're hiding a secret they're hiding a chocolate",
+            "SQUAWK! Insider info,she said yes and he called it off what a scandal",
+            "Your pothos are dying because the neighbour's cat ",
+            "SQUAWK! Breaking news! you have started working.",
+            "SQUAWK! Juicy tidbit you're the talk of town."
+        ];
+        
+        // Tarot card messages
+        const tarotCards = [
+            {
+                title: "The Fool",
+                message: "Your journey begins with a leap of faith! Take that first step on your project."
+            },
+            {
+                title: "The Magician",
+                message: "You have all the tools you need! Stop procrastinating and start creating."
+            },
+            {
+                title: "The High Priestess",
+                message: "Trust your intuition! That idea you've been ignoring might be the solution."
+            },
+            {
+                title: "The Empress",
+                message: "Nurture your projects! Give them the attention they deserve to flourish."
+            },
+            {
+                title: "The Emperor",
+                message: "Take control of your work! Structure and discipline will lead to success."
+            },
+            {
+                title: "The Hierophant",
+                message: "Seek guidance if needed! Don't be afraid to ask for help with your tasks."
+            },
+            {
+                title: "The Lovers",
+                message: "Find balance in your work! Prioritize what truly matters to you."
+            },
+            {
+                title: "The Chariot",
+                message: "Focus your energy! Direct your efforts toward completing your goals."
+            },
+            {
+                title: "Strength",
+                message: "You have the inner strength! Push through the resistance and get started."
+            },
+            {
+                title: "The Hermit",
+                message: "Take time for reflection! Step back to gain perspective on your work."
+            }
+        ];
+        
+        // Work avoidance messages
+        const workAvoidance = [
+            " Start working!",
+            " Deadline is closer than you think!",
+            " Report time!",
+            " Emails piling!",
+            " Stop scrolling!",
+            " Inbox screaming!",
+            "work!work!work!"
+        ];
+        
+        // Follow-up messages
+        const followUps = [
+            " Work status?",
+            " Remember work?",
+            " Work calls!",
+            " stop Avoiding?",
+            " Do it yourself!",
+            "Thinking?",
+            " Work lonely!",
+            "Still waiting!"
+        ];
+        
+        // Non-stop mode messages
+        const nonstopRoasts = [
+            "Work now!",
+            " Stop delaying!",
+            "Get busy!",
+            "fruits of hardwork",
+            " No excuses!",
+            " Focus! Focus!Focus!",
+            " Productivity!",
+            " Time wasting!",
+            "Taylor Swift concert needs you to get a job",
+            "Do it!",
+            "work babygirl you got this"
+        ];
+        
+        // Bird-like phoneme sets
+        const birdPhonemes = {
+            squawks: ["SKWAK", "KRA", "KRE", "KRO", "KRAW", "CAW", "COO", "SCREE", "TWEET", "CHIRP"],
+            clicks: ["CLK", "TK", "KT", "CL", "CK", "TK"],
+            whistles: ["WHEE", "WHEE", "WHOO", "WHEET", "TWEET", "TWEE", "TWOO"],
+            endings: ["!", "?", "~", "...", "!!", "?!", "~!"]
+        };
+        
+        // Speech synthesis setup
+        const synth = window.speechSynthesis;
+        let currentUtterance = null;
+        
+        // Function to convert text to bird-like speech
+        function textToBirdSpeech(text) {
+            const words = text.split(' ');
+            let birdText = '';
+            
+            // Apply birdiness level (0-100)
+            const birdinessLevel = birdiness / 100;
+            
+            for (let i = 0; i < words.length; i++) {
+                // Chance to replace word with a bird sound
+                if (Math.random() < birdinessLevel * 0.3) {
+                    const soundType = Math.random();
+                    let birdSound;
+                    
+                    if (soundType < 0.4) {
+                        // Squawk
+                        birdSound = birdPhonemes.squawks[Math.floor(Math.random() * birdPhonemes.squawks.length)];
+                    } else if (soundType < 0.7) {
+                        // Click
+                        birdSound = birdPhonemes.clicks[Math.floor(Math.random() * birdPhonemes.clicks.length)];
+                    } else {
+                        // Whistle
+                        birdSound = birdPhonemes.whistles[Math.floor(Math.random() * birdPhonemes.whistles.length)];
+                    }
+                    
+                    // Capitalize and add ending
+                    birdSound = birdSound.toUpperCase();
+                    
+                    // Add ending punctuation 30% of the time
+                    if (Math.random() < 0.3) {
+                        birdSound += birdPhonemes.endings[Math.floor(Math.random() * birdPhonemes.endings.length)];
+                    }
+                    
+                    birdText += birdSound + ' ';
+                } else {
+                    // Modify the word to be more bird-like
+                    let modifiedWord = words[i];
+                    
+                    // Chance to add a bird prefix
+                    if (Math.random() < birdinessLevel * 0.2) {
+                        const prefix = birdPhonemes.clicks[Math.floor(Math.random() * birdPhonemes.clicks.length)];
+                        modifiedWord = prefix + '-' + modifiedWord;
+                    }
+                    
+                    // Chance to add a bird suffix
+                    if (Math.random() < birdinessLevel * 0.2) {
+                        const suffix = birdPhonemes.whistles[Math.floor(Math.random() * birdPhonemes.whistles.length)].toLowerCase();
+                        modifiedWord += '-' + suffix;
+                    }
+                    
+                    // Randomly capitalize parts of the word
+                    if (Math.random() < birdinessLevel * 0.4) {
+                        modifiedWord = modifiedWord.split('').map(char => 
+                            Math.random() < 0.3 ? char.toUpperCase() : char.toLowerCase()
+                        ).join('');
+                    }
+                    
+                    birdText += modifiedWord + ' ';
+                }
+            }
+            
+            return birdText.trim();
+        }
+        
+        // Function to make the parrot speak
+        function parrotSays(message, callback) {
+            // Add to history
+            addToHistory(message);
+            
+            // Show speech bubble
+            parrotSpeech.textContent = message;
+            parrotSpeech.classList.add('show');
+            
+            // Animate the parrot
+            parrot.classList.add('bounce');
+            setTimeout(() => parrot.classList.remove('bounce'), 500);
+            
+            // Add talking animations
+            parrotHead.classList.add('head-bob');
+            parrotBeak.classList.add('talking');
+            
+            // Create the utterance
+            let utterance;
+            
+            if (useBirdVoice) {
+                // Convert to bird-like speech for display
+                const birdMessage = textToBirdSpeech(message);
+                parrotSpeech.textContent = birdMessage;
+                
+                // Create utterance with original message but bird-like voice settings
+                utterance = new SpeechSynthesisUtterance(message);
+                utterance.pitch = 2.0; // Higher pitch for squawky voice
+                utterance.rate = 1.5 + (birdiness/100 * 0.5); // Faster speech rate based on birdiness
+                utterance.volume = 0.9; // Slightly higher volume
+            } else {
+                // Regular speech
+                utterance = new SpeechSynthesisUtterance(message);
+                utterance.pitch = 1.0; // Normal pitch
+                utterance.rate = 1.0; // Normal rate
+                utterance.volume = 0.8; // Normal volume
+            }
+            
+            // Find a suitable voice
+            const voices = synth.getVoices();
+            const voice = voices.find(v => v.name.includes('Google UK English Female')) || 
+                         voices.find(v => v.lang.includes('en')) || 
+                         voices[0];
+            
+            if (voice) utterance.voice = voice;
+            
+            currentUtterance = utterance;
+            
+            // Queue management
+            if (synth.speaking) {
+                squawkQueue.push(utterance);
+            } else {
+                synth.speak(utterance);
+            }
+            
+            utterance.onend = function() {
+                // Remove talking animations
+                parrotHead.classList.remove('head-bob');
+                parrotBeak.classList.remove('talking');
+                
+                // Hide speech bubble when done
+                setTimeout(() => {
+                    parrotSpeech.classList.remove('show');
+                }, 500);
+                
+                // Process next in queue
+                if (squawkQueue.length > 0) {
+                    const nextUtterance = squawkQueue.shift();
+                    synth.speak(nextUtterance);
+                }
+                
+                // Call callback if provided
+                if (callback) callback();
+            };
+            
+            // Update last squawk time
+            lastSquawkTime = Date.now();
+        }
+        
+        // Add message to history
+        function addToHistory(message) {
+            const historyItem = document.createElement('div');
+            historyItem.classList.add('history-item');
+            
+            if (useBirdVoice) {
+                historyItem.textContent = textToBirdSpeech(message);
+            } else {
+                historyItem.textContent = message;
+            }
+            
+            historyList.prepend(historyItem);
+            
+            // Limit history to 15 items
+            if (historyList.children.length > 15) {
+                historyList.removeChild(historyList.lastChild);
+            }
+        }
+        
+        // Set the current work
+        function setCurrentWork(work) {
+            currentWork = work.trim();
+            if (currentWork) {
+                currentWorkSpan.textContent = `"${currentWork}"`;
+                workReminder.classList.add('pulse');
+                setTimeout(() => workReminder.classList.remove('pulse'), 500);
+                
+                // Schedule follow-up squawks
+                startReminderInterval();
+                
+                // Give immediate feedback
+                parrotSays(`SQUAWK! Avoiding "${currentWork}"? waiting longer ain't gonna make it magically disappear`);
+            } else {
+                currentWorkSpan.textContent = "nothing yet!";
+                parrotSays("SQUAWK! You didn't tell me what you're avoiding!");
+            }
+        }
+        
+        // Start the reminder interval
+        function startReminderInterval() {
+            clearInterval(reminderInterval);
+            reminderInterval = setInterval(() => {
+                // Only remind if it's been at least 30 seconds since last squawk
+                if (Date.now() - lastSquawkTime > 30000) {
+                    const randomFollowUp = followUps[Math.floor(Math.random() * followUps.length)];
+                    parrotSays(randomFollowUp);
+                }
+            }, 45000); // 45 seconds
+        }
+        
+        // Start rapid-fire mode
+        function startNonstopMode() {
+            if (!currentWork) {
+                parrotSays("Tell me what work you're avoiding first!");
+                workInput.focus();
+                return;
+            }
+            
+            if (nonstopMode) return;
+            
+            nonstopMode = true;
+            nonstopIndicator.style.display = 'flex';
+            nonstopBtn.disabled = true;
+            nonstopBtn.classList.add('shake');
+            
+            // Start the rapid-fire loop
+            nonstopInterval = setInterval(() => {
+                const randomRoast = nonstopRoasts[Math.floor(Math.random() * nonstopRoasts.length)];
+                parrotSays(randomRoast);
+            }, 1000); // 1 second
+        }
+        
+        // Stop rapid-fire mode
+        function stopNonstopMode() {
+            if (!nonstopMode) return;
+            
+            nonstopMode = false;
+            nonstopIndicator.style.display = 'none';
+            nonstopBtn.disabled = false;
+            nonstopBtn.classList.remove('shake');
+            
+            clearInterval(nonstopInterval);
+            squawkQueue = [];
+            
+            if (synth.speaking) {
+                synth.cancel();
+            }
+            
+            parrotSays("SQUAWK! Fine, I'll stop bothering you... for now!");
+        }
+        
+        // Generate a roast
+        function roastUser() {
+            let message;
+            
+            if (currentWork) {
+                message = `SQUAWK! Still avoiding "${currentWork}"? ${roasts[Math.floor(Math.random() * roasts.length)]}`;
+            } else {
+                message = workAvoidance[Math.floor(Math.random() * workAvoidance.length)];
+            }
+            
+            parrotSays(message);
+        }
+        
+        // Generate gossip
+        function shareGossip() {
+            const gossipMessage = gossip[Math.floor(Math.random() * gossip.length)];
+            parrotSays(gossipMessage);
+        }
+        
+        // Draw a tarot card
+        function drawTarotCard() {
+            const randomIndex = Math.floor(Math.random() * tarotCards.length);
+            const card = tarotCards[randomIndex];
+            
+            // Update the tarot card display
+            tarrotTitle.textContent = card.title;
+            tarrotMessage.textContent = card.message;
+            tarrotCard.classList.add('show');
+            
+            // Parrot comments on the card
+            parrotSays(`SQUAWK! You drew ${card.title}! ${card.message}`);
+        }
+        
+        // Stop the parrot
+        function stopParrot() {
+            if (synth.speaking) {
+                synth.cancel();
+            }
+            squawkQueue = [];
+            parrotSpeech.classList.remove('show');
+            clearInterval(reminderInterval);
+            
+            // Also stop non-stop mode if active
+            if (nonstopMode) {
+                stopNonstopMode();
+            }
+        }
+        
+        // Toggle bird voice
+        function toggleBirdVoice() {
+            useBirdVoice = !useBirdVoice;
+            if (useBirdVoice) {
+                voiceToggle.innerHTML = '<i class="fas fa-volume-up"></i> Bird Voice: ON';
+                voiceToggle.classList.add('active');
+                parrotSays("SQUAWK! Bird voice activated!");
+            } else {
+                voiceToggle.innerHTML = '<i class="fas fa-volume-mute"></i> Bird Voice: OFF';
+                voiceToggle.classList.remove('active');
+                parrotSays("Normal voice activated.");
+            }
+        }
+        
+        // Update birdiness
+        function updateBirdiness() {
+            birdiness = parseInt(birdinessSlider.value);
+            parrotSays(`SQUAWK! Birdiness set to ${birdiness}%`);
+        }
+        
+        // Event listeners
+        enterBtn.addEventListener('click', () => setCurrentWork(workInput.value));
+        workInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                setCurrentWork(workInput.value);
+            }
+        });
+        
+        roastBtn.addEventListener('click', roastUser);
+        gossipBtn.addEventListener('click', shareGossip);
+        tarrotBtn.addEventListener('click', drawTarotCard);
+        nonstopBtn.addEventListener('click', startNonstopMode);
+        stopNonstopBtn.addEventListener('click', stopNonstopMode);
+        closeTarrot.addEventListener('click', () => {
+            tarrotCard.classList.remove('show');
+        });
+        voiceToggle.addEventListener('click', toggleBirdVoice);
+        birdinessSlider.addEventListener('input', updateBirdiness);
+        
+        // Initialize with a welcome message
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                parrotSays("SQUAWK!  What work are you avoiding today?");
+            }, 1000);
+            
+            // Set voice toggle to active initially
+            voiceToggle.classList.add('active');
+            
+            // Load voices when they become available
+            if (synth.onvoiceschanged !== undefined) {
+                synth.onvoiceschanged = () => {};
+            }
+        });
+    </script>
+</body>
+</html>
+
+i need to fix this website 
